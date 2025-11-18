@@ -1,18 +1,27 @@
 import axios from "axios";
 import { handleAxiosError } from "../main.js";
 
+/**
+ * 게시글 클래스
+ * @property string title - 게시글 제목
+ * @property string content - 게시글 내용
+ * @property number writer - 작성자
+ * @property string image - 이미지
+ * @property number likeCount - 좋아요 수
+ * @property date createdAt - 일자
+ */
 export class Article {
-  #title;
-  #content;
-  #image;
-  #writer;
+  title;
+  content;
+  image;
+  writer;
   #likeCount;
 
-  constructor(title, content, writer, image) {
-    this.#title = title;
-    this.#content = content;
+  constructor({ title, content, writer, image }) {
+    this.title = title;
+    this.content = content;
     this.writer = writer;
-    this.#image = image;
+    this.image = image;
     this.#likeCount = 0;
     this.createdAt = new Date();
   }
@@ -20,10 +29,6 @@ export class Article {
   // 좋아요 수 증가
   like() {
     this.#likeCount += 1;
-  }
-
-  likeCount() {
-    return this.#likeCount;
   }
 }
 

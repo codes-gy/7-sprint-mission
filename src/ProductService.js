@@ -3,19 +3,19 @@ import { handleAxiosError } from "../main.js";
 
 /**
  * 상품 클래스
- * @property {string} name - 상품명
- * @property {string} description - 상품 설명
- * @property {number} price - 판매 가격
- * @property {string[]} tags - 해시태그 배열
- * @property {string[]} images - 이미지 배열
- * @property {number} favoriteCount - 찜하기 수
+ * @property string name - 상품명
+ * @property string description - 상품 설명
+ * @property number price - 판매 가격
+ * @property string[] tags - 해시태그 배열
+ * @property string[] images - 이미지 배열
+ * @property number favoriteCount - 찜하기 수
  */
 export class Product {
-  #name;
-  #description;
-  #price;
-  #tags;
-  #images;
+  name;
+  description;
+  price;
+  tags;
+  images;
   #favoriteCount;
 
   constructor({ name, description, price, tags, images, favoriteCount = 0 }) {
@@ -24,17 +24,17 @@ export class Product {
     this.price = price;
     this.tags = tags;
     this.images = images;
-    this.favoriteCount = favoriteCount;
+    this.#favoriteCount = favoriteCount;
   }
 
   favorite() {
-    this.favoriteCount++;
+    this.#favoriteCount++;
   }
 }
 
 /**
  * 전자제품 클래스 (Product 상속)
- * @property {string} manufacturer - 제조사
+ * @property string manufacturer - 제조사
  */
 export class ElectronicProduct extends Product {
   manufacturer;
@@ -66,8 +66,8 @@ export async function getProductList(page = 1, pageSize = 10, keyword = "") {
     const data = response.data;
 
     if (!Array.isArray(data?.list)) {
-      console.error("getProductList: API 응답이 배열이 아닙니다.", data?.list);
-      throw new Error("상품 목록 형식이 올바르지 않습니다.");
+      console.error("응답데이터가 배열이 아닙니다 : ", data?.list);
+      throw new Error("데이터를 확인해주세요.");
     }
 
     // 해시태그에 전자제품이 포함되어 있는 상품은 Product클래스

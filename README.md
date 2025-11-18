@@ -2,6 +2,7 @@
 
 - [x] `class`키워드를 이용해서 Product 클래스를 만들어 주세요.
 - [x] `name`(상품명)`description`(상품 설명),`price`(판매 가격),`tags`(해시태그 배열),`images`(이미지 배열),`favoriteCount`(찜하기 수)프로퍼티를 가집니다.
+
 - [x] `favorite`메소드를 가집니다.`favorite`메소드가 호출될 경우 찜하기 수가 1 증가합니다.
 - [x] `class`키워드를 이용해서 ElectronicProduct 클래스를 만들어 주세요.
 - [x] Product를 상속하며, 추가로`manufacturer`(제조사) 프로퍼티를 가집니다.

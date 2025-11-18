@@ -38,9 +38,9 @@ getArticleList(1, 10, "테스트")
 
 // 게시글 추가
 const newArticleData = {
-  title: "새로운 게시글 (axios)",
+  title: "새로운 게시글",
   content: "내용입니다...",
-  image: "http://example.com/image.jpg",
+  image: "http://example.com/image.png",
 };
 createArticle(newArticleData)
   .then((article) => {
