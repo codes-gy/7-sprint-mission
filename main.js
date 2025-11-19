@@ -130,9 +130,9 @@ getProductList(1, 10, "")
 
 // --- 클래스 테스트 ---
 const toy = new Product({
-  name: "곰인형",
-  description: "귀여운 곰인형",
-  price: 20000,
+  name: "토끼 인형",
+  description: "귀여운 토끼 인형",
+  price: 50000,
   tags: ["장난감", "인형"],
   images: [],
 });
@@ -145,11 +145,11 @@ console.log(toy);
 
 const tv = new ElectronicProduct({
   name: "스마트 TV",
-  description: "고화질 TV",
+  description: "저화질 TV",
   price: 1000000,
   tags: ["전자제품", "가전"],
   images: [],
-  manufacturer: "Panda Electronics",
+  manufacturer: "Samsung Electronics",
 });
 
 tv.favorite();
@@ -158,9 +158,9 @@ tv.favorite();
 console.log(tv);
 
 const myArticle = new Article({
-  title: "테스트 제목",
-  content: "테스트 내용",
-  writer: "김판다",
+  title: "테스트 제목입니다.",
+  content: "테스트 내용입니다.",
+  writer: "김토끼",
   image: null,
 });
 
