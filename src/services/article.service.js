@@ -14,7 +14,7 @@ export async function createArticle(articleData) {
 
 // 모든 상품을 조회
 
-export async function findAllArticles(page, limit, sort, search) {
+export async function findAllArticles(cursor, limit, sort, search) {
   const order = sort === "recent" ? "desc" : "asc";
   let where = {};
   console.log(`[DEBUG] 수신된 검색어: ${search}`);
@@ -36,13 +36,27 @@ export async function findAllArticles(page, limit, sort, search) {
       ],
     };
   }
-  const products = await prisma.article.findMany({
+
+  if (cursor) {
+    if (order === "desc") where.id = { lt: cursor };
+    if (order === "asc") where.id = { gt: cursor };
+  }
+
+  const articleLimit = parseInt(limit, 10);
+
+  const articles = await prisma.article.findMany({
     where: where,
-    skip: (parseInt(page) - 1) * parseInt(limit),
-    take: parseInt(limit),
+    //skip: (parseInt(page) - 1) * parseInt(limit),
+    take: articleLimit,
     orderBy: { created_at: order },
   });
-  return products;
+
+  const nextCursor =
+    articles.length === articleLimit
+      ? articles[articles.length - 1].id.toString()
+      : null;
+
+  return articles;
 }
 
 export async function findArticleById(id) {

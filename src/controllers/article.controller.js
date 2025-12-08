@@ -6,7 +6,7 @@ import * as articlesService from "../services/article.service.js";
 import * as commentService from "../services/comment.service.js";
 import Comment, { validateParentExists } from "../models/comment.js";
 
-export async function createArticle(req, res) {
+export async function createArticle(req, res, next) {
   try {
     const { title, content } = req.body;
 
@@ -20,11 +20,11 @@ export async function createArticle(req, res) {
     const createdArticle = await articlesService.createArticle(article);
     return res.status(200).json(createdArticle);
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
 }
 
-export async function findAllArticles(req, res) {
+export async function findAllArticles(req, res, next) {
   try {
     const { limit = "10", page = "1", sort = "recent", search } = req.query;
 
@@ -38,24 +38,24 @@ export async function findAllArticles(req, res) {
     const result = createdArticle.map((entity) => Article.fromEntity(entity));
     return res.status(200).json(result);
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
 }
 
 // curl -X POST http://localhost:3000/articles -H "Content-Type: application/json" -d '{"title": "1일차 테스트 글", "content": "내용입니다", "productId": 2}'
 
-export async function findArticleById(req, res) {
+export async function findArticleById(req, res, next) {
   try {
     const articleId = parseInt(req.params.id);
     const articles = await articlesService.findArticleById(articleId);
     return res.status(200).json(articles);
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
 }
 // curl -X GET http://localhost:3000/articles/1
 
-export async function deleteArticle(req, res) {
+export async function deleteArticle(req, res, next) {
   try {
     const articleId = parseInt(req.params.id);
     const deleteArticle = await articlesService.deleteArticle(articleId);
@@ -63,26 +63,26 @@ export async function deleteArticle(req, res) {
       .status(200)
       .json({ message: `삭제된 상품 :${deleteArticle?.id}` });
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
 }
 
 //curl -X DELETE http://localhost:3000/articles/1
 
-export async function updateArticle(req, res) {
+export async function updateArticle(req, res, next) {
   try {
     const articleId = parseInt(req.params.id);
     const data = req.body;
     const articles = await articlesService.updateArticle(articleId, data);
     return res.status(200).json(articles);
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
 }
 //curl -X PATCH http://localhost:3000/articles/2 -H "Content-Type: application/json" -d '{"price": 45000, "description": "가격 인상"}'
 //curl -X PATCH http://localhost:3000/articles/2 -H "Content-Type: application/json" -d '{"tags": ["할인", "급처"]}'
 
-export async function createComment(req, res) {
+export async function createComment(req, res, next) {
   try {
     const parentId = req.params.id;
     await validateParentExists(parentId, "article");
@@ -96,20 +96,23 @@ export async function createComment(req, res) {
 
     return res.status(201).json(result);
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
 }
 
-function handleError(res, error) {
-  console.log(error.statusCode);
-  console.log(error.status);
-  if (error.statusCode === 404 || error.message.includes("not found")) {
-    return res.status(404).json({ message: error.message });
+export async function getArticleComments(req, res, next) {
+  try {
+    const parentId = String(req.params.id);
+    await validateParentExists(parentId, "article");
+    const params = {
+      parentId: parentId,
+      parentType: "article",
+    };
+    const comment = await commentService.getComments(params);
+    const result = comment.map((entity) => Comment.fromEntity(entity));
+
+    return res.status(201).json(result);
+  } catch (error) {
+    next(error);
   }
-  if (error.message.includes("required") || error.message.includes("valid")) {
-    return res.status(400).json({ message: error.message });
-  }
-  return res
-    .status(500)
-    .json({ message: `Internal Server Error - ${error.message}` });
 }

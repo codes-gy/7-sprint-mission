@@ -1,17 +1,10 @@
-import Article, {
-  validateCreateArticle,
-  validateArticlePage,
-} from "../models/article.js";
-import * as articlesService from "../services/article.service.js";
 import * as commentService from "../services/comment.service.js";
-import Comment, { validateParentExists } from "../models/comment.js";
 
-export async function updateComment(req, res) {
+export async function updateComment(req, res, next) {
   try {
     const commentId = req.params.id;
     const { content } = req.body;
 
-    console.log(`${commentId}  //// ${content}`);
     const updatedComment = await commentService.updateComment({
       commentId,
       content,
@@ -21,11 +14,11 @@ export async function updateComment(req, res) {
       data: updatedComment,
     });
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
 }
 
-export async function deleteComment(req, res) {
+export async function deleteComment(req, res, next) {
   try {
     const commentId = parseInt(req.params.id);
 
@@ -38,20 +31,6 @@ export async function deleteComment(req, res) {
       data: commentId,
     });
   } catch (error) {
-    handleError(res, error);
+    next(error);
   }
-}
-
-function handleError(res, error) {
-  console.log(error.statusCode);
-  console.log(error.status);
-  if (error.statusCode === 404 || error.message.includes("not found")) {
-    return res.status(404).json({ message: error.message });
-  }
-  if (error.message.includes("required") || error.message.includes("valid")) {
-    return res.status(400).json({ message: error.message });
-  }
-  return res
-    .status(500)
-    .json({ message: `Internal Server Error - ${error.message}` });
 }

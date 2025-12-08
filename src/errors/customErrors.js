@@ -1,18 +1,20 @@
-export function customErrors(err, req, res, next) {
-  if (err.statusCode === 404 || err.message.includes("not found")) {
-    return res.status(404).json({ message: err.message });
-  }
-}
+export function handleError(err, req, res, next) {
+  const { message, name, statusCode, stack } = err;
 
-function handleError(res, error) {
-  if (
-    error.message.includes("required") ||
-    error.message.includes("valid") ||
-    error.name.include("FileTypeValidationError")
-  ) {
-    return res.status(400).json({ message: error.message });
+  if (statusCode === 404 || message.includes("not found")) {
+    return res.status(404).json({ message });
   }
-  return res
-    .status(500)
-    .json({ message: `Internal Server Error : ${error.stack}` });
+
+  const badRequestKeywords = ["required", "valid"];
+  const isBadRequest =
+    badRequestKeywords.some((keyword) => message.includes(keyword)) ||
+    name === "FileTypeValidationError";
+
+  if (isBadRequest) {
+    return res.status(400).json({ message });
+  }
+
+  return res.status(500).json({
+    message: `Internal Server Error : ${message}`,
+  });
 }

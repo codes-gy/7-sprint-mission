@@ -6,6 +6,7 @@ import {
   findArticleById,
   updateArticle,
   createComment,
+  getArticleComments,
 } from "../controllers/article.controller.js";
 const router = express.Router();
 
@@ -16,6 +17,6 @@ router
   .delete(deleteArticle)
   .patch(updateArticle);
 
-router.route("/:id/comments").post(createComment);
+router.route("/:id/comments").get(getArticleComments).post(createComment);
 
 export { router };
