@@ -103,17 +103,24 @@ export async function createComment(req, res, next) {
 export async function getArticleComments(req, res, next) {
   try {
     const parentId = String(req.params.id);
-    console.log(parentId);
+    const { limit, cursorId } = req.query;
+
+    const parsedLimit = parseInt(limit, 10);
     await validateParentExists(parentId, "article");
     const params = {
       parentId: parentId,
       parentType: "article",
+      limit: parsedLimit,
+      cursorId,
     };
 
-    const comment = await commentService.getComments(params);
-    const result = comment.map((entity) => Comment.fromEntity(entity));
+    const { comments, nextCursor } = await commentService.getComments(params);
+    const result = comments.map((entity) => Comment.fromEntity(entity));
 
-    return res.status(201).json(result);
+    return res.status(200).json({
+      data: result,
+      nextCursor: nextCursor,
+    });
   } catch (error) {
     next(error);
   }

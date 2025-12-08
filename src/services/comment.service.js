@@ -51,35 +51,42 @@ export async function deleteComment({ commentId }) {
 export async function getComments({
   parentId,
   parentType,
-  limit = 5,
-  page = 1,
+  limit = 10,
+  cursorId,
 }) {
   const take = parseInt(limit);
-  const skip = (parseInt(page) - 1) * take;
+  const cursor = cursorId ? cursorId : undefined;
+  //const skip = (parseInt(page) - 1) * take;
   let commentWhere = {};
+  let models;
   let result = {};
-  if (parentType === "product") {
-    commentWhere = { product_id: parentId };
-    result = await prisma.product_comment.findMany({
-      where: commentWhere,
-      take: take,
-      skip: skip,
-      orderBy: {
-        create_at: "desc",
-      },
-    });
-  }
-  if (parentType === "article") {
-    commentWhere = { article_id: parentId };
-    result = await prisma.article_comment.findMany({
-      where: commentWhere,
-      take: take,
-      skip: skip,
-      orderBy: {
-        create_at: "desc",
-      },
-    });
-  }
 
-  return result;
+  if (parentType === "product") {
+    models = prisma.product_comment;
+    commentWhere = { product_id: parentId };
+  } else if (parentType === "article") {
+    models = prisma.article_comment;
+    commentWhere = { article_id: parentId };
+  } else {
+    throw new Error("Invalid parentType");
+  }
+  if (cursor) {
+    // 커서 페이징은 항상 ID가 이전 커서보다 '작은' (desc 정렬 기준 다음 페이지) 항목을 찾습니다.
+    commentWhere.id = { lt: cursor };
+  }
+  comments = await models.findMany({
+    where: commentWhere,
+    take: take,
+    //skip: skip,
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  const nextCursor =
+    comments.length === take
+      ? comments[comments.length - 1].id.toString()
+      : null;
+
+  return { comments, nextCursor };
 }
