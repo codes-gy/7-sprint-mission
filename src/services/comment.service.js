@@ -4,15 +4,16 @@ export async function createComment({ content, parentId, parentType }) {
   let data = {
     content: content,
   };
+  let models;
   if (parentType === "product") {
+    models = prisma.product_comment;
     data.product_id = parentId;
-    data.article_id = null;
   }
   if (parentType === "article") {
-    data.product_id = null;
+    models = prisma.article_comment;
     data.article_id = parentId;
   }
-  const result = await prisma.product_comment.create({
+  const result = await models.create({
     data,
   });
 
@@ -59,7 +60,7 @@ export async function getComments({
   //const skip = (parseInt(page) - 1) * take;
   let commentWhere = {};
   let models;
-  let result = {};
+  let comments = {};
 
   if (parentType === "product") {
     models = prisma.product_comment;

@@ -1,9 +1,5 @@
 {
   "type": "module",
-<<<<<<< HEAD
-  "dependencies": {
-    "axios": "^1.13.2"
-=======
   "scripts": {
     "seed": "node src/seed.js",
     "dev": "nodemon src/app.js",
@@ -24,6 +20,5 @@
     "nodemon": "^3.1.11",
     "prisma": "^7.0.0",
     "ts-node": "^10.9.2"
->>>>>>> 595dfd9 (feat: 1차 작성완료)
   }
 }
