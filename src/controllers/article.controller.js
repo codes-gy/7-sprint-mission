@@ -103,12 +103,13 @@ export async function createComment(req, res, next) {
 export async function getArticleComments(req, res, next) {
   try {
     const parentId = String(req.params.id);
+    console.log(parentId);
     await validateParentExists(parentId, "article");
     const params = {
       parentId: parentId,
       parentType: "article",
     };
-    console.log(params);
+
     const comment = await commentService.getComments(params);
     const result = comment.map((entity) => Comment.fromEntity(entity));
 
