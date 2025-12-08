@@ -108,6 +108,7 @@ export async function getArticleComments(req, res, next) {
       parentId: parentId,
       parentType: "article",
     };
+    console.log(params);
     const comment = await commentService.getComments(params);
     const result = comment.map((entity) => Comment.fromEntity(entity));
 
