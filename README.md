@@ -54,7 +54,8 @@ Express + Prisma 기반의 백엔드 API 서버입니다. 회원 인증, 상품/
 | ------ | ---------------------- | ---------------- |
 | POST   | /products/:id/comments | 댓글 작성            |
 | GET    | /products/:id/comments | 댓글 목록 조회 |
-
+| PATCH  | /comments/:id          | 댓글 수정            |
+| DELETE | /comments/:id          | 댓글 삭제            |
 
 ---
 
