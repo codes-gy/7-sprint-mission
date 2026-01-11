@@ -3,12 +3,13 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import path, { join } from 'path';
 import { fileURLToPath } from 'url';
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const swaggerPath = path.resolve(__dirname, '../../src/lib/swagger/**/*.yaml');
 
-const options = {
+const options  = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
@@ -20,6 +21,10 @@ const options = {
             {
                 url: 'https://sprint4-gqmg.onrender.com',
                 description: '배포 환경',
+            },
+            {
+                url: 'http://localhost:3000',
+                description: '개발 환경',
             },
         ],
         tags: [
@@ -34,8 +39,8 @@ const options = {
     apis: [swaggerPath],
 };
 
-export const specs = swaggerJsdoc(options);
-if (specs.components && specs.components.schemas) {
+export const specs  = swaggerJsdoc(options);
+if (specs.components?.schemas) {
     delete specs.components.schemas;
 }
 export { swaggerUi };

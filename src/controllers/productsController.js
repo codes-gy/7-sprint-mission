@@ -1,5 +1,5 @@
 import { create } from 'superstruct';
-import { prisma } from '../../prisma/prisma.js';
+import { prisma } from '../lib/prisma.js';
 import { IdParamsStruct } from '../structs/commonStructs.js';
 import {
     CreateProductBodyStruct,
@@ -8,11 +8,11 @@ import {
 } from '../structs/productsStruct.js';
 import { CreateCommentBodyStruct, GetCommentListParamsStruct } from '../structs/commentsStruct.js';
 import { NotFoundError } from '../lib/errors/NotFoundError.js';
-import { UnauthorizedError } from '../lib/errors/UnauthorizedError.js';
 import { ForbiddenError } from '../lib/errors/ForbiddenError.js';
 import { Product } from '../classes/Product.js';
 import { Comment } from '../classes/Comment.js';
 import { assertUserId } from '../classes/User.js';
+
 
 export async function createProduct(req, res) {
     const { name, description, price, tags, images } = create(req.body, CreateProductBodyStruct);

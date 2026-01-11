@@ -1,6 +1,6 @@
 import { assert, create } from 'superstruct';
 import bcrypt from 'bcrypt';
-import { prisma } from '../../prisma/prisma.js';
+import { prisma } from '../lib/prisma.js';
 import {
     ChangePasswordBodyStruct,
     RegisterBodyStruct,
@@ -11,11 +11,12 @@ import { ConflictError } from '../lib/errors/ConflictError.js';
 import { UnauthorizedError } from '../lib/errors/UnauthorizedError.js';
 import { BadRequestError } from '../lib/errors/BadRequestError.js';
 import { NotFoundError } from '../lib/errors/NotFoundError.js';
-import { assertUserId, User } from '../classes/User.js';
+import { assertUserId, User } from "../classes/User.js";
+
 
 export async function login(req, res) {
     const data = req.user;
-
+    if (!data) throw new UnauthorizedError('인증 정보가 없습니다.');
     const { accessToken, refreshToken } = generateTokens(data.id);
     setTokenCookies(res, accessToken, refreshToken);
 
@@ -27,7 +28,7 @@ export async function login(req, res) {
     });
 }
 
-export async function register(req, res) {
+export async function register(req , res ) {
     // 1. 데이터 유효성 검사
     const { email, nickname, password } = req.body;
     assert({ email, nickname, password }, RegisterBodyStruct);
@@ -65,7 +66,7 @@ export async function register(req, res) {
     });
 }
 
-export function logout(req, res) {
+export function logout(req , res ) {
     clearTokenCookies(res);
 
     res.json({
@@ -73,7 +74,7 @@ export function logout(req, res) {
     });
 }
 
-export async function me(req, res) {
+export async function me(req, res ) {
     const user = req.user;
 
     if (!user) {
@@ -84,12 +85,19 @@ export async function me(req, res) {
     });
 }
 
-export async function updateMe(req, res) {
+export async function updateMe(req, res ) {
     const data = create(req.body, UpdateMeBodyStruct);
     const userId = assertUserId(req);
+    const currentUser = req.user;
     const actualChanges = Object.fromEntries(
-        Object.entries(data).filter(([key, value]) => value !== req.user?.[key]),
+        Object.entries(data).filter(([key, value]) => {
+            // key는 string이지만, currentUser를 Record로 캐스팅했으므로 안전하게 비교 가능합니다.
+            return value !== undefined && value !== currentUser?.[key];
+        }),
     );
+    // const actualChanges = Object.fromEntries(
+    //     Object.entries(data).filter(([key, value]) => value !== req.user?.[key]),
+    // );
 
     if (Object.keys(actualChanges).length === 0) {
         throw new BadRequestError('수정된 내용이 없습니다.');
@@ -164,7 +172,7 @@ export async function refreshTokens(req, res) {
     const user = req.user;
     if (!user?.id) throw new UnauthorizedError('로그인이 필요한 서비스입니다.');
 
-    const { accessToken, refreshToken } = generateTokens(req.user.id);
+    const { accessToken, refreshToken } = generateTokens(Number(req.user?.id));
     setTokenCookies(res, accessToken, refreshToken);
     res.status(200).json({
         message: '토큰이 성공적으로 재발급되었습니다.',

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../../src/main.js';
-import { prisma } from '../../prisma/prisma.js';
+import { prisma } from '../../src/lib/prisma.js';
 
 describe('유저 통합 테스트', () => {
     let authCookie;
@@ -61,7 +61,9 @@ describe('유저 통합 테스트', () => {
     describe('내 정보 조회', () => {
         it('내 정보를 가져와야 한다', async () => {
             const res = await request(app).get('/auth/me').set('Cookie', authCookie); // 확보한 쿠키 전달
-
+            if (res.statusCode === 500) {
+                console.error('서버 에러 상세:', res.body); // 에러 메시지가 찍힐 겁니다.
+            }
             expect(res.statusCode).toBe(200);
             expect(res.body.data.email).toBe(testUser.email);
             expect(res.body.data.nickname).toBe(testUser.nickname);

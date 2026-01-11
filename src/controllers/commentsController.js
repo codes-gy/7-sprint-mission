@@ -2,11 +2,11 @@ import { create } from 'superstruct';
 import { UpdateCommentBodyStruct } from '../structs/commentsStruct.js';
 import { IdParamsStruct } from '../structs/commonStructs.js';
 import { NotFoundError } from '../lib/errors/NotFoundError.js';
-import { prisma } from '../../prisma/prisma.js';
-import { UnauthorizedError } from '../lib/errors/UnauthorizedError.js';
+import { prisma } from '../lib/prisma.js';
 import { ForbiddenError } from '../lib/errors/ForbiddenError.js';
 import { Comment } from '../classes/Comment.js';
 import { assertUserId } from '../classes/User.js';
+
 
 export async function updateComment(req, res) {
     const { id } = create(req.params, IdParamsStruct);

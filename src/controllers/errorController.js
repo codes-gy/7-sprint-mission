@@ -4,7 +4,7 @@ import { NotFoundError } from '../lib/errors/NotFoundError.js';
 import { ConflictError } from '../lib/errors/ConflictError.js';
 import { ForbiddenError } from '../lib/errors/ForbiddenError.js';
 import { UnauthorizedError } from '../lib/errors/UnauthorizedError.js';
-import { error } from 'console';
+
 
 export function defaultNotFoundHandler(req, res, next) {
     return res.status(404).send({
@@ -13,7 +13,8 @@ export function defaultNotFoundHandler(req, res, next) {
 }
 
 export function globalErrorHandler(err, req, res, next) {
-    // console.error(err.stack);
+    //테스트용
+    //console.error(err.stack);
     if (err instanceof BadRequestError) {
         return res.status(400).send({
             message: err.message,

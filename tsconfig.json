@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./build",
+
+    // Environment Settings
+    "module": "commonjs",
+    "target": "es2016",
+    "types": [
+      "./src/types",
+      "./node_modules/@types",
+    ],
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

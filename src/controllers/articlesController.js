@@ -7,9 +7,8 @@ import {
 } from '../structs/articlesStructs.js';
 import { CreateCommentBodyStruct, GetCommentListParamsStruct } from '../structs/commentsStruct.js';
 import { NotFoundError } from '../lib/errors/NotFoundError.js';
-import { prisma } from '../../prisma/prisma.js';
+import { prisma } from '../lib/prisma.js';
 import { ForbiddenError } from '../lib/errors/ForbiddenError.js';
-import { UnauthorizedError } from '../lib/errors/UnauthorizedError.js';
 import { Article } from '../classes/Article.js';
 import { Comment } from '../classes/Comment.js';
 import { assertUserId } from '../classes/User.js';

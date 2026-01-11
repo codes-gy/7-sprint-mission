@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../../src/main.js';
-import { prisma } from '../../prisma/prisma.js';
+import { prisma } from '../../src/lib/prisma.js';
 
 describe('상품 통합 테스트', () => {
     let authCookie;

@@ -1,6 +1,6 @@
 import LocalStrategy from 'passport-local';
 import bcrypt from 'bcrypt';
-import { prisma } from '../../../prisma/prisma.js';
+import { prisma } from '../prisma.js';
 import { LoginBodyStruct } from '../../structs/authStructs.js';
 import { create } from 'superstruct';
 

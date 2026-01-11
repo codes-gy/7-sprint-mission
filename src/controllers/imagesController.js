@@ -38,7 +38,8 @@ export async function uploadImage(req, res) {
         throw new BadRequestError('이미지 파일이 없습니다.');
     }
     const host = req.get('host');
-    const filePath = path.join(host, STATIC_PATH, req.file.filename);
-    const url = `http://${filePath}`;
+    const filePath = STATIC_PATH.startsWith('/') ? STATIC_PATH : `/${STATIC_PATH}`;
+    const url = `http://${host}${filePath}/${req.file.filename}`;
+    console.log(`filePath: ${url}`);
     return res.status(201).send({ url });
 }

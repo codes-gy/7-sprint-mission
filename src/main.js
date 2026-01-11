@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import { PORT, PUBLIC_PATH, STATIC_PATH } from './lib/constants.js';
+import { PUBLIC_PATH, STATIC_PATH } from './lib/constants.js';
 import articlesRouter from './routers/articlesRouter.js';
 import productsRouter from './routers/productsRouter.js';
 import commentsRouter from './routers/commentsRouter.js';

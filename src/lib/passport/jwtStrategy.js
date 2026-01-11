@@ -5,7 +5,7 @@ import {
     JWT_REFRESH_TOKEN_SECRET,
     REFRESH_TOKEN_COOKIE_NAME,
 } from '../constants.js';
-import { prisma } from '../../../prisma/prisma.js';
+import { prisma } from '../prisma.js';
 
 const accessTokenOptions = {
     jwtFromRequest: (req) => req.cookies[ACCESS_TOKEN_COOKIE_NAME],
