@@ -3,15 +3,20 @@
 Express + Prisma 기반의 백엔드 API 서버입니다. 회원 인증, 상품/게시글 CRUD, 댓글, 좋아요, 이미지 업로드 기능을 제공합니다.
 
 ---
+## 배포 주소
+* API Server : https://sprint4-gqmg.onrender.com
+* API Docs(Swagger) : https://sprint4-gqmg.onrender.com/docs
 
 ## 기술 스택
 
-* **Node.js / Express**
-* **Prisma ORM**
-* **PostgreSQL**
-* **JWT 기반 인증 (Access / Refresh Token)**
-* **Swagger (API Docs)**
-* **Multer (이미지 업로드)**
+* **Runtime: Node.js (v18+)**
+* **Framework: Express.js**
+* **Database: PostgreSQL**
+* **ORM: Prisma**
+* **Authentication: Passport.js (Local & JWT Strategy)**
+* **Documentation: Swagger (swagger-ui-express)**
+* **File Upload: Multer**
+* **Validation: Superstruct**
 
 ---
 
@@ -71,10 +76,6 @@ Express + Prisma 기반의 백엔드 API 서버입니다. 회원 인증, 상품/
 | ------ | ---------------------- | ---------------- |
 | POST   | /articles/:id/comments | 댓글 작성            |
 | GET    | /articles/:id/comments | 댓글 목록 조회 |
-
----
-
-### 답글 공통
 | PATCH  | /comments/:id          | 댓글 수정            |
 | DELETE | /comments/:id          | 댓글 삭제            |
 
@@ -82,7 +83,7 @@ Express + Prisma 기반의 백엔드 API 서버입니다. 회원 인증, 상품/
 
 | Method | Endpoint | Description |
 | ------ | -------- | ----------- |
-| POST   | /images  | 이미지 업로드     |
+| POST   | /images/upload  | 이미지 업로드     |
 
 * 지원 포맷: `png`, `jpg`, `jpeg`
 * 최대 크기: 5MB
@@ -126,7 +127,15 @@ src/
 
 프로젝트는 **Jest + Supertest** 기반의 통합 테스트를 제공합니다.
 ```bash
+# 전체 테스트 실행
 npm run test
+# 특정 파일 테스트 실행
+npm run test ./tests/images/imageTest.js
+npm run test ./tests/auths/authTest.js
+npm run test ./tests/products/productTest.js
+npm run test ./tests/articles/articleTest.js
+npm run test ./tests/comments/commentTest.js
+npm run test ./tests/images/imageTest.js
 ```
 - 테스트 실행 시 실제 API 엔드포인트를 대상으로 요청/응답을 검증합니다.
 - Prisma를 사용하여 테스트 전후로 데이터베이스 상태를 정리합니다.
