@@ -1,24 +1,54 @@
 {
-  "type": "module",
-  "scripts": {
-    "seed": "node src/seed.js",
-    "dev": "nodemon src/app.js",
-    "start": "node src/app.js",
-    "build": "npm install && npx prisma db push && npx prisma generate"
-  },
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.0.1",
-    "@prisma/client": "^7.0.0",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "multer": "^2.0.2",
-    "pg": "^8.16.3"
-  },
-  "devDependencies": {
-    "@types/node": "^24.10.1",
-    "@types/pg": "^8.15.6",
-    "nodemon": "^3.1.11",
-    "prisma": "^7.0.0",
-    "ts-node": "^10.9.2"
-  }
+    "type": "module",
+    "scripts": {
+        "postinstall": "prisma generate",
+        "start": "node src/server.js",
+        "dev": "nodemon -e js,yaml src/server.js",
+        "build": "npm install && npx prisma db push && npx prisma generate",
+        "test": "cross-env NODE_ENV=TEST NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
+        "test:watch": "npm test -- --watch"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^6.0.0",
+        "@types/cookie-parser": "^1.4.10",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.6",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/passport": "^1.0.17",
+        "@types/passport-jwt": "^4.0.1",
+        "@types/passport-local": "^1.0.38",
+        "@types/pg": "^8.16.0",
+        "@types/swagger-jsdoc": "^6.0.4",
+        "@types/swagger-ui-express": "^4.1.8",
+        "cross-env": "^10.1.0",
+        "jest": "^30.2.0",
+        "nodemon": "^3.1.11",
+        "prettier": "^3.3.2",
+        "prettier-plugin-prisma": "^5.0.0",
+        "prisma": "^7.2.0",
+        "supertest": "^7.1.4",
+        "tsx": "^4.21.0",
+        "typescript": "^5.9.3"
+    },
+    "dependencies": {
+        "@prisma/adapter-pg": "^7.2.0",
+        "@prisma/client": "^7.2.0",
+        "@prisma/config": "^7.2.0",
+        "bcrypt": "^6.0.0",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "dotenv": "^16.6.1",
+        "express": "^4.19.2",
+        "express-session": "^1.18.2",
+        "jsonwebtoken": "^9.0.3",
+        "multer": "2.0.2",
+        "passport": "^0.7.0",
+        "passport-jwt": "^4.0.1",
+        "passport-local": "^1.0.0",
+        "pg": "^8.16.3",
+        "superstruct": "^2.0.2",
+        "swagger-jsdoc": "^6.2.8",
+        "swagger-ui-express": "^5.0.1",
+        "uuid": "^11.0.5"
+    }
 }
