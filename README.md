@@ -43,13 +43,6 @@ Express + Prisma 기반의 백엔드 API 서버입니다. 회원 인증, 상품/
 | POST   | /products/:id/like | 상품 좋아요 토글             |
 | GET    | /products/like/list | 내가 좋아요한 상품 목록         |
 
-### 상품 답글
-
-| Method | Endpoint               | Description      |
-| ------ | ---------------------- | ---------------- |
-| POST   | /products/:id/comments | 댓글 작성            |
-| GET    | /products/:id/comments | 댓글 목록 조회 |
-
 
 ---
 
@@ -65,18 +58,19 @@ Express + Prisma 기반의 백엔드 API 서버입니다. 회원 인증, 상품/
 | POST   | /articles/:id/like | 게시글 좋아요 토글  |
 | GET    | /articles/like/list | 내가 좋아요한 게시글 |
 
-### 게시글 답글
-
-| Method | Endpoint               | Description      |
-| ------ | ---------------------- | ---------------- |
-| POST   | /articles/:id/comments | 댓글 작성            |
-| GET    | /articles/:id/comments | 댓글 목록 조회 |
-
 ---
 
-### 답글 공통
-| PATCH  | /comments/:id          | 댓글 수정            |
-| DELETE | /comments/:id          | 댓글 삭제            |
+### 답글
+| Method | Endpoint                   | Description   |
+| ------ |----------------------------|---------------|
+| POST   | /articles/:id/comments     | 답글 작성(게시글)    |
+| GET    | /articles/:id/comments     | 답글 목록 조회(게시글) |
+| PATCH  | /articles/:id/comments/:id | 답글 수정(게시글)      |
+| DELETE | /articles/:id/comments/:id | 답글 삭제(게시글)      |
+| POST   | /products/:id/comments     | 답글 작성(상품)     |
+| GET    | /products/:id/comments     | 답글 목록 조회(상품)  |
+| PATCH  | /products/:id/comments/:id | 답글 수정(상품)     |
+| DELETE | /products/:id/comments/:id | 답글 삭제(상품)  |
 
 ## 이미지 업로드
 
@@ -115,9 +109,12 @@ src/
 ├── controllers/      # 비즈니스 로직 (회원, 상품, 게시글, 댓글, 이미지)
 ├── routers/          # API 엔드포인트 라우팅
 ├── classes/          # 엔티티 변환 및 도메인 모델
+├── services/
+├── repositories/
 ├── structs/          # Superstruct를 이용한 데이터 유효성 검사 스키마
 ├── lib/              # 공통 유틸리티 (에러 핸들러, 토큰 관리, 패스포트 설정)
-└── main.js           # 애플리케이션 진입점 및 미들웨어 설정
+├── tests/            # 테스트
+└── main.ts           # 애플리케이션 진입점 및 미들웨어 설정
 ```
 
 ---
