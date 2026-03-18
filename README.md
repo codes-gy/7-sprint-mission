@@ -1,68 +1,136 @@
-## 요구사항
+# Sprint4 Backend API
 
-### 기본
+Express + Prisma 기반의 백엔드 API 서버입니다. 회원 인증, 상품/게시글 CRUD, 댓글, 좋아요, 이미지 업로드 기능을 제공합니다.
 
-- [x] `class`키워드를 이용해서 Product 클래스를 만들어 주세요.
-- [x] `name`(상품명)`description`(상품 설명),`price`(판매 가격),`tags`(해시태그 배열),`images`(이미지 배열),`favoriteCount`(찜하기 수)프로퍼티를 가집니다.
-- [x] `favorite`메소드를 가집니다.`favorite`메소드가 호출될 경우 찜하기 수가 1 증가합니다.
-- [x] `class`키워드를 이용해서 ElectronicProduct 클래스를 만들어 주세요.
-- [x] Product를 상속하며, 추가로`manufacturer`(제조사) 프로퍼티를 가집니다.
-- [x] class 키워드를 이용해서 Article 클래스를 만들어 주세요.
-- [x] `title`(제목),`content`(내용),`writer`(작성자),`likeCount`(좋아요 수) 프로퍼티를 가집니다.
-- [x] `like`메소드를 가집니다.`like`메소드가 호출될 경우 좋아요 수가 1 증가합니다.
-- [x] 각 클래스 마다**constructor**를 작성해 주세요.
-- [x] 추상화/캡슐화/상속/다형성을 고려하여 코드를 작성해 주세요.
-- [x] [https://panda-market-api-crud.vercel.app/docs](https://panda-market-api-crud.vercel.app/docs)의 Article API를 이용하여 아래 함수들을 구현해 주세요.
-- [x] `getArticleList()`: GET 메소드를 사용해 주세요.
-- [x] `page`,`pageSize`,`keyword`쿼리 파라미터를 이용해 주세요.
-- [x] `getArticle()`: GET 메소드를 사용해 주세요.
-- [x] `createArticle()`: POST 메소드를 사용해 주세요.
-- [x] request body에`title`,`content`,`image`를 포함해 주세요.
-- [x] `patchArticle()`: PATCH 메소드를 사용해 주세요.
-- [x] `deleteArticle()`: DELETE 메소드를 사용해 주세요.
-- [x] `fetch`혹은`axios`를 이용해 주세요.
-- [x] 응답의 상태 코드가 2XX가 아닐 경우, 에러 메시지를 콘솔에 출력해 주세요.
-- [x] `.then()`메소드를 이용하여 비동기 처리를 해주세요.
-- [x] `.catch()`를 이용하여 오류 처리를 해주세요.
-- [x] [https://panda-market-api-crud.vercel.app/docs](https://panda-market-api-crud.vercel.app/docs)의 Product API를 이용하여 아래 함수들을 구현해 주세요.
-- [x] `getProductList()`: GET 메소드를 사용해 주세요.
-- [x] `page`,`pageSize`,`keyword`쿼리 파라미터를 이용해 주세요.
-- [x] `getProduct()`: GET 메소드를 사용해 주세요.
-- [x] `createProduct()`: POST 메소드를 사용해 주세요.
-- [x] request body에`name`,`description`,`price`,`tags`,`images`를 포함해 주세요.
-- [x] `patchProduct()`: PATCH 메소드를 사용해 주세요.
-- [x] `deleteProduct()`: DELETE 메소드를 사용해 주세요.
-- [x] `async/await`을 이용하여 비동기 처리를 해주세요.
-- [x] `try/catch`를 이용하여 오류 처리를 해주세요.
-- [x] `getProductList()`를 통해서 받아온 상품 리스트를 각각 인스턴스로 만들어`products`배열에 저장해 주세요.
-- [x] 해시태그에 "**전자제품**"이 포함되어 있는 상품들은`Product`클래스 대신`ElectronicProduct`클래스를 사용해 인스턴스를 생성해 주세요.
-- [x] 나머지 상품들은 모두`Product`클래스를 사용해 인스턴스를 생성해 주세요.
-- [x] 구현한 함수들을 아래와 같이 파일을 분리해 주세요.
-- [x] **export**를 활용해 주세요.
-- [x] `ProductService.js`파일**Product**API 관련 함수들을 작성해 주세요.
-- [x] `ArticleService.js`파일에**Article**API 관련 함수들을 작성해 주세요.
-- [x] 이외의 코드들은 모두`main.js`파일에 작성해 주세요.
-- [x] **import**를 활용해 주세요.
-- [x] 각 함수를 실행하는 코드를 작성하고, 제대로 동작하는지 확인해 주세요.
-- [x] `README.md`파일을 작성해 주세요.
-- [x] 마크다운 언어를 숙지하여 작성해 주세요.
-- [x] 내용은 자유롭게 작성해 주세요.
+---
 
-### 심화
+## 기술 스택
 
-- [x] Article 클래스에`createdAt`(생성일자) 프로퍼티를 만들어 주세요.
-- [x] 새로운 객체가 생성되어 constructor가 호출될 시`createdAt`에 현재 시간을 저장합니다.
+* **Node.js / Express**
+* **Prisma ORM**
+* **PostgreSQL**
+* **JWT 기반 인증 (Access / Refresh Token)**
+* **Swagger (API Docs)**
+* **Multer (이미지 업로드)**
 
-## 주요 변경사항
+---
 
-- Panda Market API를 이용한 Article/Product CRUD(Create, Read, Update, Delete) 기능 구현.
--
+## 인증 (Auth)
 
-## 스크린샷
+| Method | Endpoint          | Description  |
+| ------ | ----------------- | ------------ |
+| POST   | /auth/register    | 회원가입         |
+| POST   | /auth/login       | 로그인          |
+| POST   | /auth/logout      | 로그아웃         |
+| GET    | /auth/me          | 내 정보 조회      |
+| PATCH  | /auth/me          | 내 정보 수정      |
+| PATCH  | /auth/me/password    | 비밀번호 변경      |
+| POST   | /auth/refresh     | 토큰 재발급       |
 
-![image](./images/image.png)
+> 로그인 성공 시 Access / Refresh Token이 쿠키로 설정됩니다.
 
-## 멘토에게
+---
 
-- 셀프 코드 리뷰를 통해 질문 이어가겠습니다.
--
+## 상품 (Products)
+
+| Method | Endpoint           | Description           |
+| ------ | ------------------ | --------------------- |
+| POST   | /products          | 상품 등록 (로그인 필요)        |
+| GET    | /products          | 상품 목록 조회 |
+| GET    | /products/:id      | 상품 상세 조회              |
+| PATCH  | /products/:id      | 상품 수정 (본인만 가능)        |
+| DELETE | /products/:id      | 상품 삭제 (본인만 가능)        |
+| POST   | /products/:id/like | 상품 좋아요 토글             |
+| GET    | /products/like/list | 내가 좋아요한 상품 목록         |
+
+
+---
+
+## 게시글 (Articles)
+
+| Method | Endpoint           | Description |
+| ------ | ------------------ | ----------- |
+| POST   | /articles          | 게시글 작성      |
+| GET    | /articles          | 게시글 목록 조회   |
+| GET    | /articles/:id      | 게시글 상세 조회   |
+| PATCH  | /articles/:id      | 게시글 수정      |
+| DELETE | /articles/:id      | 게시글 삭제      |
+| POST   | /articles/:id/like | 게시글 좋아요 토글  |
+| GET    | /articles/like/list | 내가 좋아요한 게시글 |
+
+---
+
+### 답글
+| Method | Endpoint                   | Description   |
+| ------ |----------------------------|---------------|
+| POST   | /articles/:id/comments     | 답글 작성(게시글)    |
+| GET    | /articles/:id/comments     | 답글 목록 조회(게시글) |
+| PATCH  | /articles/:id/comments/:id | 답글 수정(게시글)      |
+| DELETE | /articles/:id/comments/:id | 답글 삭제(게시글)      |
+| POST   | /products/:id/comments     | 답글 작성(상품)     |
+| GET    | /products/:id/comments     | 답글 목록 조회(상품)  |
+| PATCH  | /products/:id/comments/:id | 답글 수정(상품)     |
+| DELETE | /products/:id/comments/:id | 답글 삭제(상품)  |
+
+## 이미지 업로드
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| POST   | /images  | 이미지 업로드     |
+
+* 지원 포맷: `png`, `jpg`, `jpeg`
+* 최대 크기: 5MB
+* 업로드 성공 시 이미지 URL 반환
+
+---
+
+## 공통 정책
+
+* **인증 필요 API**는 로그인하지 않으면 `401 Unauthorized`
+* **본인 소유 리소스**만 수정/삭제 가능 (`403 Forbidden`)
+* 존재하지 않는 리소스 접근 시 `404 Not Found`
+
+---
+
+## API 문서 (Swagger)
+
+```text
+GET /docs/
+```
+
+Swagger UI를 통해 전체 API를 확인할 수 있습니다.
+
+---
+
+## 프로젝트 구조 (요약)
+
+```text
+src/
+├── controllers/      # 비즈니스 로직 (회원, 상품, 게시글, 댓글, 이미지)
+├── routers/          # API 엔드포인트 라우팅
+├── classes/          # 엔티티 변환 및 도메인 모델
+├── services/
+├── repositories/
+├── structs/          # Superstruct를 이용한 데이터 유효성 검사 스키마
+├── lib/              # 공통 유틸리티 (에러 핸들러, 토큰 관리, 패스포트 설정)
+├── tests/            # 테스트
+└── main.ts           # 애플리케이션 진입점 및 미들웨어 설정
+```
+
+---
+
+## 테스트
+
+프로젝트는 **Jest + Supertest** 기반의 통합 테스트를 제공합니다.
+```bash
+npm run test
+```
+- 테스트 실행 시 실제 API 엔드포인트를 대상으로 요청/응답을 검증합니다.
+- Prisma를 사용하여 테스트 전후로 데이터베이스 상태를 정리합니다.
+- 인증이 필요한 API는 테스트용 유저를 생성하고 로그인 후 쿠키를 활용해 검증합니다.
+
+---
+
+## 비고
+
+* API 서버 프로젝트입니다.
