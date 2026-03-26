@@ -1,6 +1,6 @@
 git## 요구사항
 
-### 인증
+### 인증 
 - [x] User 스키마를 작성해 주세요.
 - [x] id, email, nickname, image, password, createdAt, updatedAt 필드를 가집니다.
 - [x] 회원가입 API를 만들어 주세요.

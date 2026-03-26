@@ -21,5 +21,6 @@ services:
       - JWT_REFRESH_TOKEN_SECRET=your-refresh-secret-key
     volumes:
       - ./public:/app/public
+
 volumes:
   panda-market-db:
